@@ -1,0 +1,9 @@
+# Ignore DB files
+
+*db*
+*.sqlite*
+
+# Env and IDE folders
+
+.venv/
+.idea/*
