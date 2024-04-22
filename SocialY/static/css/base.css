@@ -1,0 +1,7 @@
+.bg-base-gradient{
+    background-image: linear-gradient(to bottom, #0d5ec2, #515ec4, #765dc4, #935cc2, #ad5bbe);
+}
+
+.bg-base-gradient .nav-link{
+    color: #ffffff !important;
+}
