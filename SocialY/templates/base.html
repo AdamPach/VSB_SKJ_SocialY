@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script defer src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <title>{% block title %}Social Y{% endblock title %}</title>
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+<body>
+
+    {% include "base_header.html" %}
+
+    <div class="container w-auto">
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+
+    {% include 'base_footer.html' %}
+</body>
+</html>
