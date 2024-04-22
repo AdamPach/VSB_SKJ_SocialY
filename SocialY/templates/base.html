@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
     <title>{% block title %}Social Y{% endblock title %}</title>
     {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
 
     <header>
-
+        Header
     </header>
 
     {% block content %}
@@ -17,7 +20,7 @@
     {% endblock content %}
 
     <footer>
-
+        Footer
     </footer>
 </body>
 </html>
