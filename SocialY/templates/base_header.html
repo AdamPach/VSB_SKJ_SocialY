@@ -23,7 +23,7 @@
                     {% if user.is_authenticated %}
                         <div class="d-flex justify-content-between align-items-center">
                             <a class="btn btn-light mx-lg-1 my-lg-0 my-2" href="/users/auth/logout">Log out</a>
-                            <a class="btn btn-outline-light mx-lg-1 my-lg-0 my-2" href="#">Profile: {{ user.username }}</a>
+                            <a class="btn btn-outline-light mx-lg-1 my-lg-0 my-2" href="/profile">Profile: {{ user.username }}</a>
                         </div>
                     {% else %}
                         <a class="btn btn-light mx-lg-1 my-lg-0 my-2" href="/users/auth/login">Log in</a>

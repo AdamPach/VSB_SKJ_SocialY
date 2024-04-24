@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if is_current_user %}
+
+    {% endif %}
+    <h2 class="border-bottom border-1">
+        {% if is_current_user %}
+            Welcome on your profile:
+        {% else %}
+            Profile:
+        {% endif %}
+
+        {{ user }}
+    </h2>
+{% endblock %}
