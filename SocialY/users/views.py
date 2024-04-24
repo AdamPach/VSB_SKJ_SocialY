@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -35,7 +36,7 @@ def register_user(request):
                                                                       "everything is correct"})
 
         user.save()
-        return redirect(f"/login")
+        return redirect(f"/users/auth/login")
     else:
         return render(request, "register.html")
 
@@ -54,3 +55,9 @@ def login_user(request):
         return render(request, "login.html", {"error_message": "Auth failed, please check your credentials"})
     else:
         return render(request, "login.html")
+
+
+@login_required
+def logout_user(request):
+    logout(request)
+    return HttpResponse("Successfully logged out")
