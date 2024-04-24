@@ -1,0 +1,25 @@
+{% extends "profile_template.html" %}
+
+{% block profile_info %}
+    <h3>
+        There you can edit your profile
+    </h3>
+    <form method="post" action="/profile/edit">
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="quoteInput">Your quote</label>
+            <input type="text" class="form-control" name="quote" id="quoteInput" value="{{ user.quote }}"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="quoteInput">Your description</label>
+            <textarea type="text" class="form-control" name="description" id="quoteInput" style="height: 100px">
+                {{ user.user_description }}
+            </textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+{% endblock %}

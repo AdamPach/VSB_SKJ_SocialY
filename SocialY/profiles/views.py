@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import render, redirect
+from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from users.models import ApplicationUser
 
@@ -22,4 +22,21 @@ def show_profile_by_username(request, username):
     if user is None:
         raise Http404("Product does not exist")
 
-    return render(request, "profile_template.html", {"user_profile": user, "is_current_user": True if username == request.user.username else False})
+    return render(request,
+                  "profile_template.html",
+                  {"user_profile": user, "is_current_user": True if username == request.user.username else False})
+
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        new_quote = request.POST.get("quote")
+        new_description = request.POST.get("description")
+
+        request.user.quote = new_quote if new_quote is not None else ""
+        request.user.user_description = new_description if new_description is not None else ""
+        request.user.save()
+
+        return redirect('/profile')
+    else:
+        return render(request, "edit_profile.html")
