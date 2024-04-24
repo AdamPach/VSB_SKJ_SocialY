@@ -8,7 +8,7 @@ from users.models import ApplicationUser
 
 @login_required
 def show_current_profile(request):
-    return render(request, "profile_template.html", {"user": request.user, "is_current_user": True})
+    return render(request, "profile_template.html", {"user_profile": request.user, "is_current_user": True})
 
 
 def show_profile_by_username(request, username):
@@ -22,4 +22,4 @@ def show_profile_by_username(request, username):
     if user is None:
         raise Http404("Product does not exist")
 
-    return render(request, "profile_template.html", {"user": user, "is_current_user": True if username == user.username else False})
+    return render(request, "profile_template.html", {"user_profile": user, "is_current_user": True if username == request.user.username else False})

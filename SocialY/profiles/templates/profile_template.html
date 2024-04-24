@@ -11,6 +11,46 @@
             Profile:
         {% endif %}
 
-        {{ user }}
+        {{ user_profile }}
     </h2>
+
+    <div class="my-3">
+        {% block profile_info %}
+
+            <div class="card my-3">
+                <div class="card-header">
+                    <h5 class="card-title">{{ user_profile }}'s Quote</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fw-bold fs-5 ">
+                        {% if user_profile.quote != "" %}
+                            {{ user_profile.quote }}
+                        {% else  %}
+                            There is no user quote yet
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-header">
+                    <h5 class="card-title">{{ user_profile }}'s Description</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-6">
+                        {% if user_profile.user_description != "" %}
+                            {{ user_profile.user_description }}
+                        {% else  %}
+                            There is nothing to see in the description
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+
+            {% if is_current_user %}
+                <a class="btn btn-primary my-3">Edit Profile</a>
+            {% endif %}
+        {% endblock %}
+    </div>
 {% endblock %}
