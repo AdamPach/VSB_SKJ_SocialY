@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-center align-items-center">
-        <form action="/register" method="post">
+        <form action="/users/auth/register" method="post">
             {% if error_message %}
                 <div class="alert alert-danger" role="alert">
                     {{ error_message }}
