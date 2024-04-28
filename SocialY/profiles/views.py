@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from users.models import ApplicationUser
 
