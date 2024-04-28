@@ -10,3 +10,6 @@ class Link(models.Model):
     destination = models.URLField(unique=True, null=False, blank=False)
 
     user = models.ForeignKey(ApplicationUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.name}"
