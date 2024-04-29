@@ -1,4 +1,4 @@
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
@@ -50,9 +50,11 @@ def add_link(request):
     if request.method == "POST":
         name = request.POST.get("link-name")
         destination = request.POST.get("destination")
-        button = request.POST.get("button-text") if request.POST.get("button-text") != "" else None
+        button = request.POST.get("button-text")
         try:
-            new_link = Link(name=name, button_text=button, destination=destination, user=request.user)
+            new_link = Link(name=name, destination=destination, user=request.user)
+            if button != "":
+                new_link.button_text = new_link
             new_link.save()
         except ValidationError:
             return render(request, "profile_add_link.html", {"error_message": "Link is invalid"})
@@ -63,3 +65,16 @@ def add_link(request):
 
     else:
         return render(request, "profile_add_link.html")
+
+
+@login_required
+def delete_link(request, link_id):
+    try:
+        link = Link.objects.get(id=link_id)
+        if link.user_id != request.user.id:
+            raise Http404("Link does not exists")
+        link.delete()
+    except ObjectDoesNotExist:
+        raise Http404("Link does not exists")
+
+    return redirect("/profile/edit")

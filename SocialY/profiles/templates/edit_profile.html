@@ -28,7 +28,7 @@
     {% for link in user_profile.link_set.all %}
         <div class="my-3 d-flex align-items-center justify-content-between">
             <span class="d-inline-block w-25">{{ link.name }}: </span>
-            <a class="btn btn-danger mx-2" href="{{ link.destination }}">Delete Link</a>
+            <a class="btn btn-danger mx-2" href="/profile/delete-link/{{ link.id }}">Delete Link</a>
         </div>
     {% endfor %}
     <a class="btn btn-primary" href="/profile/add-link">Add link</a>
