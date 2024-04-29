@@ -15,6 +15,12 @@
     </h2>
 
     <div class="my-3">
+        {% block profile_buttons %}
+            {% if is_current_user %}
+                <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
+            {% endif %}
+        {% endblock %}
+
         {% block profile_info %}
 
             <div class="card my-3">
@@ -46,11 +52,6 @@
                     </p>
                 </div>
             </div>
-
-
-            {% if is_current_user %}
-                <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
-            {% endif %}
         {% endblock %}
         <div class="border-bottom border-1 mt-5">
             <h3>
@@ -59,8 +60,8 @@
         </div>
         {% block profile_links %}
             {% for link in user_profile.link_set.all %}
-                <div class="my-3">
-                    <span>{{ link.name }}: </span>
+                <div class="my-3 d-flex align-items-center justify-content-between">
+                    <span class="d-inline-block w-25">{{ link.name }}: </span>
                     <a class="btn btn-success mx-2" href="{{ link.destination }}">{{ link.button_text }}</a>
                 </div>
             {% endfor %}

@@ -1,7 +1,10 @@
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from users.models import ApplicationUser
+from .models import Link
 
 
 # Create your views here.
@@ -39,4 +42,24 @@ def edit_profile(request):
 
         return redirect('/profile')
     else:
-        return render(request, "edit_profile.html")
+        return render(request, "edit_profile.html", {"user_profile": request.user})
+
+
+@login_required
+def add_link(request):
+    if request.method == "POST":
+        name = request.POST.get("link-name")
+        destination = request.POST.get("destination")
+        button = request.POST.get("button-text") if request.POST.get("button-text") != "" else None
+        try:
+            new_link = Link(name=name, button_text=button, destination=destination, user=request.user)
+            new_link.save()
+        except ValidationError:
+            return render(request, "profile_add_link.html", {"error_message": "Link is invalid"})
+        except IntegrityError:
+            return render(request, "profile_add_link.html", {"error_message": "This destination is already in use"})
+
+        return redirect("/profile/edit")
+
+    else:
+        return render(request, "profile_add_link.html")
