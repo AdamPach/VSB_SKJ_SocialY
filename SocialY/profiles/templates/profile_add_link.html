@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3 class="border-bottom border-1">Add link</h3>
+    <div class="d-flex justify-content-center align-items-center">
+        <form action="/profile/add-link" method="post">
+            {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="link-nameField">Link Name</label>
+                <input type="text" class="form-control" name="link-name" id="link-nameField" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="destinationField">Destination URL</label>
+                <input type="url" class="form-control" name="destination" id="destinationField" required />
+                <div class="form-text">
+                    Destination URL has to be valid URL address
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="button-textField">Button Text</label>
+                <input type="text" class="form-control" name="button-text" id="button-textField" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add link</button>
+        </form>
+    </div>
+
+{% endblock %}

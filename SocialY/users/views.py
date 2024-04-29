@@ -50,7 +50,7 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return HttpResponse("logged in")
+            return redirect('/profile')
 
         return render(request, "login.html", {"error_message": "Auth failed, please check your credentials"})
     else:
