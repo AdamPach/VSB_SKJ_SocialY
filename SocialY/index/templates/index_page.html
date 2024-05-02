@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="text-center">
+        <h1 class="py-2">Welcome on the Social Y network</h1>
+        <h2 class="py-2">Place where you can freely discuss with others</h2>
+        <div class="row py-5">
+            {% if user.is_authenticated %}
+                <div class="col-md-6 col-12 py-2 py-md-0">
+                    <a class="btn btn-primary w-100" href="/profile">Look to your profile</a>
+                </div>
+                <div class="col-md-6 col-12 py-2 py-md-0">
+                    <a class="btn btn-outline-primary w-100" href="#">Check latest posts</a>
+                </div>
+
+            {% else %}
+                <div class="col-md-6 col-12 py-2 py-md-0">
+                    <a class="btn btn-primary w-100" href="/users/auth/register">Create account</a>
+                </div>
+                <div class="col-md-6 col-12 py-2 py-md-0">
+                    <a class="btn btn-outline-primary w-100" href="/users/auth/login">Log to your account</a>
+                </div>
+            {% endif %}
+        </div>
+    {% if message %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="alert alert-primary">
+            Nothing new to see
+        </div>
+    {% endif %}
+    </div>
+
+
+{% endblock %}

@@ -60,4 +60,4 @@ def login_user(request):
 @login_required
 def logout_user(request):
     logout(request)
-    return HttpResponse("Successfully logged out")
+    return redirect('/index?message=Successfully%20logged%20out')
