@@ -5,3 +5,7 @@
 .bg-base-gradient .nav-link{
     color: #ffffff !important;
 }
+
+body{
+    height: 100% !important;
+}
