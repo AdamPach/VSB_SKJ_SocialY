@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="border-bottom border-1">Create new post</h2>
+
+    <form method="post" action="/posts/" class="my-5">
+
+        {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% csrf_token %}
+
+        <div class="form-floating my-2">
+            <textarea class="form-control fs-3" name="post_content" style="height: 100px" id="post_content" maxlength="1000"></textarea>
+            <label for="post_content">Your post</label>
+        </div>
+        <button type="submit" class="btn btn-success mt-5">Post</button>
+    </form>
+{% endblock %}
