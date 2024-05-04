@@ -10,7 +10,6 @@
         </div>
         <div class="card-footer">
             <a class="btn btn-primary">Like it</a>
-            <a class="btn btn-outline-primary">Add comment</a>
         </div>
     </div>
 
@@ -28,4 +27,18 @@
     </form>
 
     <h3 class="border-bottom border-1 my-5">Comments</h3>
+
+    {% for comment in post.comment_set.select_related.all %}
+
+        <div class="card my-5">
+            <div class="card-header">
+                <h4 class="card-title">{{ comment.author.username }}'s comment</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text fs-4">{{ comment.comment_content }}</p>
+                <span class="card-text">{{ comment.created_on }}</span>
+            </div>
+        </div>
+
+    {% endfor %}
 {% endblock %}
