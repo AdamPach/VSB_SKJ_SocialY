@@ -33,4 +33,5 @@ def create_post(request):
 
 
 def list_posts(request):
-    pass
+    posts = Post.objects.select_related('author').order_by('-created_on').all()[:10]
+    return render(request, "list_posts.html", {"posts": posts})

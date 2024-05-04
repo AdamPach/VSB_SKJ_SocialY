@@ -10,7 +10,10 @@
             <div class="collapse navbar-collapse d-lg-flex justify-content-between" id="navbar-toggler">
                 <div class="navbar-nav">
                     <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link" href="#">Notification</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="/posts/list">Posts</a>
+                        <a class="nav-link" href="/posts">Add posts</a>
+                    {% endif %}
                 </div>
 
                 <div>
