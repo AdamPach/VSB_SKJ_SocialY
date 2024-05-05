@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Comment, Like
 
 
 # Create your views here.
@@ -11,7 +11,9 @@ from .models import Post, Comment
 def get_post_detail(request, id_post):
     try:
         post = Post.objects.get(id=id_post)
-        return render(request, "post.html", {"post": post})
+        liked_by_user = post.like_set.filter(user_id=request.user.id).exists()
+        likes = [post.id] if liked_by_user else []
+        return render(request, "post.html", {"post": post, "likes": likes})
     except ObjectDoesNotExist:
         raise Http404()
 
@@ -33,8 +35,19 @@ def create_post(request):
 
 
 def list_posts(request):
-    posts = Post.objects.select_related('author').order_by('-created_on').all()[:10]
-    return render(request, "list_posts.html", {"posts": posts})
+    posts = Post.objects.select_related('author').order_by('-created_on')
+
+    likes = []
+
+    if request.user is not None:
+        liked_posts = posts.prefetch_related("like_set__user").filter(like__user_id=request.user.id)
+
+        for liked_post in liked_posts:
+            likes.append(liked_post.id)
+
+    posts = posts.all()
+
+    return render(request, "list_posts.html", {"posts": posts, "likes": likes})
 
 
 @login_required
@@ -51,3 +64,20 @@ def add_comment(request, id_post):
         return render(request, "create_post.html", {"error_message": "Post is too long, max length is 1000 "
                                                                      "characters"})
     return redirect(f"/posts/{id_post}")
+
+
+@login_required
+def like_post(request, id_post):
+    if request.method != "POST":
+        return redirect(f"/posts/{id_post}")
+
+    like = Like.objects.filter(post_id=id_post, user_id=request.user.id).first()
+
+    if like is None:
+        new_like = Like(post_id=id_post, user_id=request.user.id)
+        new_like.save()
+    else:
+        like.delete()
+
+    redirect_url = request.POST.get("redirect_url")
+    return redirect(redirect_url)
