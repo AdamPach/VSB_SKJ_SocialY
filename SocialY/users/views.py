@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.utils import IntegrityError
-from django.contrib.auth.models import User
+from .models import ApplicationUser
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
@@ -22,7 +22,7 @@ def register_user(request):
             return render(request, "register.html", {"error_message": "Check if your password fits the rights"})
 
         try:
-            user = User.objects.create_user(username, email=email, password=password)
+            user = ApplicationUser.objects.create_user(username, email=email, password=password)
             user.is_staff = False
         except IntegrityError:
             return render(request, "register.html", {"error_message": "This user name is already used"})
