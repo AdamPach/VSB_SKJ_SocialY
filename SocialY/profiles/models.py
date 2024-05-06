@@ -16,3 +16,15 @@ class Link(models.Model):
 
     class Meta:
         unique_together = ["user", "destination"]
+
+
+class Follow(models.Model):
+    source = models.ForeignKey(ApplicationUser, on_delete=models.CASCADE, related_name="follow_source")
+
+    destination = models.ForeignKey(ApplicationUser, on_delete=models.CASCADE, related_name="follow_destination")
+
+    class Meta:
+        unique_together = ["source", "destination"]
+        indexes = [
+            models.Index(fields=["source", "source"], name="idx_unique_follow")
+        ]
