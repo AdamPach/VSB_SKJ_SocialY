@@ -16,9 +16,16 @@
 
     <div class="my-3">
         {% block profile_buttons %}
-            {% if is_current_user %}
-                <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
-            {% endif %}
+            <div class="d-flex justify-content-between">
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary active my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
+                    <a class="btn btn-outline-primary my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+                </div>
+                {% if is_current_user %}
+                    <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
+                {% endif %}
+            </div>
+
         {% endblock %}
 
         {% block profile_info %}
@@ -53,11 +60,6 @@
                 </div>
             </div>
         {% endblock %}
-        <div class="border-bottom border-1 mt-5">
-            <h3>
-                Links
-            </h3>
-        </div>
         {% block profile_links %}
             {% for link in user_profile.link_set.all %}
                 <div class="my-3 d-flex align-items-center justify-content-between">

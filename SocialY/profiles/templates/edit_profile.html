@@ -1,5 +1,12 @@
 {% extends "profile_template.html" %}
 
+{% block profile_buttons %}
+    <div class="btn-group">
+        <a class="btn btn-outline-primary my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
+        <a class="btn btn-outline-primary my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+    </div>
+{% endblock %}
+
 {% block profile_info %}
     <h3>
         There you can edit your profile
@@ -25,6 +32,12 @@
 {% endblock %}
 
 {% block profile_links %}
+
+    <div class="border-bottom border-1 mt-5">
+        <h3>
+            Links
+        </h3>
+    </div>
     {% for link in user_profile.link_set.all %}
         <div class="my-3 d-flex align-items-center justify-content-between">
             <span class="d-inline-block w-25">{{ link.name }}: </span>

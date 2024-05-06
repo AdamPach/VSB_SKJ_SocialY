@@ -1,0 +1,30 @@
+{% extends "profile_template.html" %}
+
+{% block profile_buttons %}
+    <div class="d-flex justify-content-between">
+        <div class="btn-group">
+            <a class="btn btn-outline-primary my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
+            <a class="btn btn-outline-primary active my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+        </div>
+        {% if is_current_user %}
+            <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block profile_info %}
+
+    {% if posts %}
+        {% for post in posts %}
+            {% with "/profile/user/posts/"|add:user_profile.username as redirect_endpoint %}
+                {% include "post_card.html" %}
+            {% endwith %}
+        {% endfor %}
+    {% else %}
+        <h3>User does not have any posts</h3>
+    {% endif %}
+{% endblock %}
+
+{% block profile_links %}
+
+{% endblock %}

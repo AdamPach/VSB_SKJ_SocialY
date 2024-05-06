@@ -5,7 +5,9 @@
     <h2 class="border-bottom border-1">Posts</h2>
 
     {% for post in posts %}
-    	 {% include "post_card.html" %}
+        {% with redirect_endpoint="/posts/list" %}
+            {% include "post_card.html" %}
+        {% endwith %}
     {% endfor %}
 
 {% endblock %}
