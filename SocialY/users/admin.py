@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import ApplicationUser
+from .models import ApplicationUser, Follow
 
 
 # Register your models here.
@@ -16,3 +16,4 @@ class ApplicationUserAdmin(UserAdmin):
 
 
 admin.site.register(ApplicationUser, ApplicationUserAdmin)
+admin.site.register(Follow)
