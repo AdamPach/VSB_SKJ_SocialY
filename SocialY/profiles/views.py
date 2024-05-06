@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from users.models import ApplicationUser
+from posts.models import Post
 from .models import Link
 
 
@@ -78,3 +79,31 @@ def delete_link(request, link_id):
         raise Http404("Link does not exists")
 
     return redirect("/profile/edit")
+
+
+def show_profile_posts(request, username):
+    user = None
+
+    if request.user is not None and request.user.username == username:
+        user = request.user
+    else:
+        user = ApplicationUser.objects.filter(username=username).first()
+
+    if user is None:
+        raise Http404("Product does not exist")
+
+    posts = Post.objects.select_related('author').order_by('-created_on').filter(author_id=user.id)
+
+    likes = []
+
+    if request.user is not None:
+        liked_posts = posts.prefetch_related("like_set__user").filter(like__user_id=request.user.id)
+
+        for liked_post in liked_posts:
+            likes.append(liked_post.id)
+
+    posts = posts.all()
+
+    return render(request,
+                  "profile_posts.html",
+                  {"user_profile": user, "is_current_user": True if username == request.user.username else False, "posts": posts, "likes": likes})
