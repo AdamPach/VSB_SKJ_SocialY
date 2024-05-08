@@ -7,7 +7,6 @@ from .models import Post, Comment, Like
 
 # Create your views here.
 
-@login_required
 def get_post_detail(request, id_post):
     try:
         post = Post.objects.get(id=id_post)
