@@ -32,9 +32,9 @@ def show_profile_by_username(request, username):
     return render(request,
                   "profile_template.html",
                   {
-                        "user_profile": user,
-                        "is_current_user": True if username == request.user.username else False,
-                        "followed": followed})
+                      "user_profile": user,
+                      "is_current_user": True if username == request.user.username else False,
+                      "followed": followed})
 
 
 @login_required
@@ -142,3 +142,35 @@ def follow_profile(request, username):
     redirect_utl = request.POST.get("redirect_url")
 
     return redirect(redirect_utl)
+
+
+def show_profile_followers(request, username):
+    user = None
+
+    if request.user is not None and request.user.username == username:
+        user = request.user
+    else:
+        user = ApplicationUser.objects.filter(username=username).prefetch_related('follow_source').first()
+
+    if user is None:
+        raise Http404("Product does not exist")
+
+    return render(request, "profile_followers.html", {
+        "user_profile": user,
+        "is_current_user": True if username == request.user.username else False})
+
+
+def show_profile_following(request, username):
+    user = None
+
+    if request.user is not None and request.user.username == username:
+        user = request.user
+    else:
+        user = ApplicationUser.objects.filter(username=username).prefetch_related('follow_source').first()
+
+    if user is None:
+        raise Http404("Product does not exist")
+
+    return render(request, "profile_following.html", {
+        "user_profile": user,
+        "is_current_user": True if username == request.user.username else False})

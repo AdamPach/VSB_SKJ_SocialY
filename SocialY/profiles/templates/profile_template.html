@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="border-bottom border-1 d-flex justify-content-between align-items-center">
+    <div class="border-bottom border-1">
         <h2>
             {% if is_current_user %}
                 Welcome on your profile:
@@ -11,7 +11,6 @@
 
             {{ user_profile }}
         </h2>
-        <p>Followers: {{ user_profile.follow_destination.count }}</p>
     </div>
 
     <div class="my-3">
@@ -20,6 +19,8 @@
                 <div class="btn-group">
                     <a class="btn btn-outline-primary active my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
                     <a class="btn btn-outline-primary my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+                    <a class="btn btn-outline-primary my-3" href="/profile/user/followed-by/{{ user_profile.username }}">Followers: {{ user_profile.follow_destination.count }}</a>
+                    <a class="btn btn-outline-primary my-3" href="/profile/user/following/{{ user_profile.username }}">Following: {{ user_profile.follow_source.count }}</a>
                 </div>
                 {% if is_current_user %}
                     <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>

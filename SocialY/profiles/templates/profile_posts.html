@@ -5,6 +5,7 @@
         <div class="btn-group">
             <a class="btn btn-outline-primary my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
             <a class="btn btn-outline-primary active my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+            <a class="btn btn-outline-primary my-3" href="/profile/user/followed-by/{{ user_profile.username }}">Followers: {{ user_profile.follow_destination.count }}</a>
         </div>
         {% if is_current_user %}
             <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
