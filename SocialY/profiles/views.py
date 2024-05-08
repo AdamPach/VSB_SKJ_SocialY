@@ -5,7 +5,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from users.models import ApplicationUser
 from posts.models import Post
-from .models import Link
+from .models import Link, Follow
 
 
 # Create your views here.
@@ -17,18 +17,24 @@ def show_current_profile(request):
 
 def show_profile_by_username(request, username):
     user = None
+    followed = False
 
     if request.user is not None and request.user.username == username:
         user = request.user
     else:
-        user = ApplicationUser.objects.filter(username=username).first()
+        user = ApplicationUser.objects.filter(username=username).prefetch_related('follow_source').first()
+        if request.user is not None:
+            followed = Follow.objects.filter(source_id=request.user.id, destination_id=user.id).exists()
 
     if user is None:
         raise Http404("Product does not exist")
 
     return render(request,
                   "profile_template.html",
-                  {"user_profile": user, "is_current_user": True if username == request.user.username else False})
+                  {
+                      "user_profile": user,
+                      "is_current_user": True if username == request.user.username else False,
+                      "followed": followed})
 
 
 @login_required
@@ -103,7 +109,68 @@ def show_profile_posts(request, username):
             likes.append(liked_post.id)
 
     posts = posts.all()
+    followed = Follow.objects.filter(source_id=request.user.id, destination_id=user.id).exists()
 
     return render(request,
                   "profile_posts.html",
-                  {"user_profile": user, "is_current_user": True if username == request.user.username else False, "posts": posts, "likes": likes})
+                  {
+                      "user_profile": user,
+                      "is_current_user": True if username == request.user.username else False,
+                      "posts": posts,
+                      "likes": likes,
+                      "followed": followed})
+
+
+@login_required
+def follow_profile(request, username):
+    if request.method != "POST":
+        return redirect(f'/profile/user/{username}')
+
+    user = ApplicationUser.objects.prefetch_related("follow_destination").filter(username=username).first()
+
+    if user is None or user.id == request.user.id:
+        raise Http404()
+
+    follow = Follow.objects.filter(destination_id=user.id, source_id=request.user.id).first()
+
+    if follow is None:
+        new_follow = Follow(source=request.user, destination=user)
+        new_follow.save()
+    else:
+        follow.delete()
+
+    redirect_utl = request.POST.get("redirect_url")
+
+    return redirect(redirect_utl)
+
+
+def show_profile_followers(request, username):
+    user = None
+
+    if request.user is not None and request.user.username == username:
+        user = request.user
+    else:
+        user = ApplicationUser.objects.filter(username=username).prefetch_related('follow_source').first()
+
+    if user is None:
+        raise Http404("Product does not exist")
+
+    return render(request, "profile_followers.html", {
+        "user_profile": user,
+        "is_current_user": True if username == request.user.username else False})
+
+
+def show_profile_following(request, username):
+    user = None
+
+    if request.user is not None and request.user.username == username:
+        user = request.user
+    else:
+        user = ApplicationUser.objects.filter(username=username).prefetch_related('follow_source').first()
+
+    if user is None:
+        raise Http404("Product does not exist")
+
+    return render(request, "profile_following.html", {
+        "user_profile": user,
+        "is_current_user": True if username == request.user.username else False})

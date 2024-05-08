@@ -81,3 +81,20 @@ def like_post(request, id_post):
 
     redirect_url = request.POST.get("redirect_url")
     return redirect(redirect_url)
+
+
+@login_required
+def list_followed_posts(request):
+    posts = Post.objects.select_related('author').filter(
+        author__follow_destination__source_id=request.user.id).order_by('-created_on')
+    likes = []
+
+    if request.user is not None:
+        liked_posts = posts.prefetch_related("like_set__user").filter(like__user_id=request.user.id)
+
+        for liked_post in liked_posts:
+            likes.append(liked_post.id)
+
+    posts = posts.all()
+
+    return render(request, "list_following_posts.html", {"posts": posts, "likes": likes})

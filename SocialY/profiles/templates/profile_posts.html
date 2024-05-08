@@ -5,9 +5,20 @@
         <div class="btn-group">
             <a class="btn btn-outline-primary my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
             <a class="btn btn-outline-primary active my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
+            <a class="btn btn-outline-primary my-3" href="/profile/user/followed-by/{{ user_profile.username }}">Followers: {{ user_profile.follow_destination.count }}</a>
         </div>
         {% if is_current_user %}
             <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
+        {% else %}
+            <form class="d-inline-block" action="/profile/follow/{{ user_profile.username }}" method="post">
+                <input type="hidden" name="redirect_url" value="/profile/user/posts/{{ user_profile.username }}">
+                {% csrf_token %}
+                {% if followed %}
+                    <button class="btn btn-danger my-3" type="submit">Unfollow</button>
+                {% else %}
+                    <button class="btn btn-success my-3" type="submit">Follow</button>
+                {% endif %}
+            </form>
         {% endif %}
     </div>
 {% endblock %}
