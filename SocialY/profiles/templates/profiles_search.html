@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="border-bottom border-1">Founded profiles</h2>
+
+    {% if profiles %}
+        {% for profile in profiles %}
+            {% include "profile_link_card.html" %}
+        {% endfor %}
+    {% else %}
+        <h3 class="my-3">No profiles found</h3>
+    {% endif %}
+
+{% endblock %}

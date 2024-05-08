@@ -24,7 +24,7 @@
                 </div>
                 {% if is_current_user %}
                     <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
-                {% else %}
+                {% elif user.is_authenticated %}
                     <form class="d-inline-block" action="/profile/follow/{{ user_profile.username }}" method="post">
                         <input type="hidden" name="redirect_url" value="/profile/user/{{ user_profile.username }}">
 

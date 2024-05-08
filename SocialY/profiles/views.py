@@ -174,3 +174,11 @@ def show_profile_following(request, username):
     return render(request, "profile_following.html", {
         "user_profile": user,
         "is_current_user": True if username == request.user.username else False})
+
+
+def search_profile(request):
+    search_pattern = request.GET.get("profile_name")
+
+    profiles = ApplicationUser.objects.filter(username__contains=search_pattern).all()
+
+    return render(request, "profiles_search.html", {"profiles": profiles})

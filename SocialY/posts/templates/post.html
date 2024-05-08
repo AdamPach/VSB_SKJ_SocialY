@@ -8,31 +8,35 @@
             <p class="card-text fs-3">{{ post.post_content }}</p>
             <span class="card-text">{{ post.created_on }}</span>
         </div>
-        <div class="card-footer">
-           <form action="/posts/{{ post.id }}/like" method="post" class="d-inline-block">
-                <input type="hidden" name="redirect_url" value="/posts/{{ post.id }}">
-                {% csrf_token %}
-                {% if post.id in likes %}
-                    <button type="submit" class="btn btn-danger">Unlike it</button>
-                {% else %}
-                    <button type="submit" class="btn btn-primary">Like it</button>
-                {% endif %}
-            </form>
-        </div>
+        {% if user.is_authenticated %}
+            <div class="card-footer">
+               <form action="/posts/{{ post.id }}/like" method="post" class="d-inline-block">
+                    <input type="hidden" name="redirect_url" value="/posts/{{ post.id }}">
+                    {% csrf_token %}
+                    {% if post.id in likes %}
+                        <button type="submit" class="btn btn-danger">Unlike it</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">Like it</button>
+                    {% endif %}
+                </form>
+            </div>
+        {% endif %}
     </div>
 
-    <h3 class="border-bottom border-1 my-5">Add comment</h3>
+    {% if user.is_authenticated %}
+        <h3 class="border-bottom border-1 my-5">Add comment</h3>
 
-    <form action="/posts/{{ post.id }}/comment" method="post">
-        {% csrf_token %}
+        <form action="/posts/{{ post.id }}/comment" method="post">
+            {% csrf_token %}
 
-        <div class="form-floating my-2">
-            <textarea class="form-control fs-3" name="comment_content" style="height: 100px" id="comment_content" maxlength="1000"></textarea>
-            <label for="comment_content">Add comment</label>
-        </div>
+            <div class="form-floating my-2">
+                <textarea class="form-control fs-3" name="comment_content" style="height: 100px" id="comment_content" maxlength="1000"></textarea>
+                <label for="comment_content">Add comment</label>
+            </div>
 
-        <button type="submit" class="btn btn-success mt-5">Add comment</button>
-    </form>
+            <button type="submit" class="btn btn-success mt-5">Add comment</button>
+        </form>
+    {% endif %}
 
     <h3 class="border-bottom border-1 my-5">Comments</h3>
 

@@ -6,10 +6,11 @@
             <a class="btn btn-outline-primary my-3" href="/profile/user/{{ user_profile.username }}">Profile</a>
             <a class="btn btn-outline-primary active my-3" href="/profile/user/posts/{{ user_profile.username }}">Posts</a>
             <a class="btn btn-outline-primary my-3" href="/profile/user/followed-by/{{ user_profile.username }}">Followers: {{ user_profile.follow_destination.count }}</a>
+            <a class="btn btn-outline-primary my-3" href="/profile/user/following/{{ user_profile.username }}">Following: {{ user_profile.follow_source.count }}</a>
         </div>
         {% if is_current_user %}
             <a class="btn btn-primary my-3" href="/profile/edit">Edit Profile</a>
-        {% else %}
+        {% elif user.is_authenticated %}
             <form class="d-inline-block" action="/profile/follow/{{ user_profile.username }}" method="post">
                 <input type="hidden" name="redirect_url" value="/profile/user/posts/{{ user_profile.username }}">
                 {% csrf_token %}
