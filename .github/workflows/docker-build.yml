@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Sign in to the docker hub
+      uses: docker/login-action@v3.2.0
+      with:
+        username: ${{ secret.DOCKER_HUB_USERNAME }}
+        password: ${{ secret.DOCKER_HUB_PASSWORD }}
+    - name: Build and push the docker image
+      uses: docker/build-push-action@v5.4.0
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_HUB_USERNAME }}/socialy:latest
+          ${{ secrets.DOCKER_HUB_USERNAME }}/socialy:$(date +%s)
