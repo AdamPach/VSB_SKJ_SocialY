@@ -21,4 +21,4 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_HUB_USERNAME }}/socialy:latest
-          ${{ secrets.DOCKER_HUB_USERNAME }}/socialy:$(date +%s)
+          ${{ secrets.DOCKER_HUB_USERNAME }}/socialy:${{ github.sha }}
