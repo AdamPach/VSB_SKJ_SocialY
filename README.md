@@ -4,4 +4,5 @@ School project which implements basic features of social platforms such as Twitt
 
 ## Used technologies
 
+Python 3.12
 Django
