@@ -5,11 +5,11 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v3
       with:
         python-version: 3.12
@@ -21,3 +21,19 @@ jobs:
       run: |
         cd SocialY
         python manage.py test
+        
+  vulnerability_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Prepare pip
+        run: |
+          python -m pip install --upgrade pip
+      - name: Check for vulnerabilities with Safety
+        run: |
+          pip install safety
+          safety check -r requirements.txt
