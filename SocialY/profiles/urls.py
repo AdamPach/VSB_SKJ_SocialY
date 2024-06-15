@@ -14,4 +14,3 @@ urlpatterns = [
     path('user/<slug:username>', views.show_profile_by_username),
     path('follow/<slug:username>', views.follow_profile)
 ]
-

@@ -35,7 +35,7 @@ def register_user(request):
                                                                       "everything is correct"})
 
         user.save()
-        return redirect(f"/users/auth/login")
+        return redirect("/users/auth/login")
     else:
         return render(request, "register.html")
 

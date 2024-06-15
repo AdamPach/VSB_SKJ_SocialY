@@ -9,4 +9,3 @@ urlpatterns = [
     path('<int:id_post>/like', views.like_post),
     path('<int:id_post>/comment', views.add_comment),
 ]
-
