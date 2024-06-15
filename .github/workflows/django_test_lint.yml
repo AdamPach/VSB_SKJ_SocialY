@@ -19,4 +19,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
+        cd SocialY
         python manage.py test
