@@ -10,5 +10,8 @@ COPY ./SocialY .
 
 EXPOSE 8000
 
+ENV ENV_TYPE="DOCKER"
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_HOST=localhost
 
 CMD ["python", "./SocialY/manage.py", "runserver"]
