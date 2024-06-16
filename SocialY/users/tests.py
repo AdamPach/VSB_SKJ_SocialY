@@ -5,5 +5,5 @@ from django.test import TestCase
 
 class UserTests(TestCase):
 
-    def dummy_test(self):
+    def test_dummy_test(self):
         self.assertEqual("123", "123")
